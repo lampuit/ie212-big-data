@@ -1,0 +1,1 @@
+{"class":"org.apache.spark.ml.feature.VectorAssembler","timestamp":1736788534856,"sparkVersion":"3.5.4","uid":"VectorAssembler_398ac7a516c8","paramMap":{"outputCol":"features","inputCols":["Item_Weight","Item_Visibility","Item_MRP","Outlet_Establishment_Year"]},"defaultParamMap":{"handleInvalid":"error","outputCol":"VectorAssembler_398ac7a516c8__output"}}
