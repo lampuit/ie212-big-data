@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Price Predictions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        table th {
+            background-color: #3498db;
+            color: white;
+        }
+        table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <script type="text/javascript">
+        // Reload the page every 5 seconds
+        setTimeout(function(){
+            location.reload();
+        }, 5000);
+    </script>
+</head>
+<body>
+    <h1>Flight Price Predictions</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Index</th>
+                <th>Source</th>
+                <th>Destination</th>
+                <th>Predicted Price</th>
+                <th>Days Left</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for prediction in predictions %}
+            <tr>
+                <td>{{ prediction.Index }}</td>
+                <td>{{ prediction.Source }}</td>
+                <td>{{ prediction.Destination }}</td>
+                <td>{{ prediction.Predict_Price }}</td>
+                <td>{{ prediction.Days_left }}</td>
+                <td>{{ prediction.Date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
