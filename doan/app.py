@@ -69,30 +69,25 @@ def process_kafka_stream():
 
     # Process results and store them for Flask to access
     def process_row(batch_df, batch_id):
+        conversion_rate = 0.012  # Example: 1 INR = 0.012 USD
         # Collect the batch dataframe into a list of rows
         batch_df = batch_df.collect()  # Collect the data in each batch
         
-        # Get the current date
-        current_date = datetime.datetime.now().strftime('%Y-%m-%d')  # Format as YYYY-MM-DD
-        
         with predictions_lock:
             for idx, row in enumerate(batch_df):
-                # Check if Days_left is greater than 1
-                if row['Days_left'] > 1:
-                    prediction = row['prediction']
-                    prediction_data = {
-                        "Index": idx + 1,  # Index starting from 1
-                        "Source": row['Departure'],
-                        "Destination": row['Destination'],
-                        "Predict_Price": prediction,
-                        "Days_left": row['Days_left'],
-                        "Date": current_date  # Current date when the row is processed
-                    }
-                    predictions_list.append(prediction_data)
-
-                # If Days_left equals 1, stop processing further data
-                if row['Days_left'] == 1:
-                    break  # This will stop further processing in the current batch
+                prediction = row['prediction']
+                prediction_inr = row['prediction']  # Prediction in INR
+                prediction_usd = prediction_inr * conversion_rate 
+                prediction_data = {
+                    "Index": batch_id + 1,  # Index starting from 1
+                    "Departure": row['Source'],
+                    "Destination": row['Destination'],
+                    "DayOfWeek": row['Journey_day'],
+                    "Time": row['Departure'],
+                    "Predict_Price": round(prediction_usd, 2),
+                    "Days_left": row['Days_left']
+                }
+                predictions_list.append(prediction_data)
 
     # Apply foreachBatch correctly within the streaming query
     query = predictions.writeStream \
